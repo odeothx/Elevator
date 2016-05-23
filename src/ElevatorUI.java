@@ -16,7 +16,7 @@ public class ElevatorUI {
 	public int pressed(int floor) {
 		
 		int foundElevator = -1 ;
-		// ÇöÀç Ãþ¿¡ ¸ØÃç ÀÖ´Â Elevator¸¦ Ã£´Â´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Elevatorï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 		for ( int i = 0 ; i < 3 ; i ++ ) {
 			int curFloor = controllers[i].getCurrentFloor() ;
 			if ( curFloor == floor && controllers[i].isActive()) {
@@ -26,15 +26,15 @@ public class ElevatorUI {
 		}
 		int selectedElevator = -1 ;
 
-		if ( foundElevator != -1 ) { // ÇöÀç Ãþ¿¡ ÀÖ´Â ElevatorÀÇ ¹®À» ¿­°í, 3ÃÊÈÄ¿¡ ¹®À» ´Ý´Â´Ù.
+		if ( foundElevator != -1 ) { // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 3ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 			selectedElevator = foundElevator ;
 			System.out.println("Elevator " + selectedElevator + " Selected at " + controllers[selectedElevator].getCurrentFloor());
 
 			
 			LGFloorDoor curFloorDoor = controllers[foundElevator].getFloorDoor(floor) ;
-			curFloorDoor.control(1);
+			curFloorDoor.open();
 			SamsungElevatorDoor elevatorDoor = controllers[foundElevator].getElevatorDoor() ;
-			elevatorDoor.control(0);
+			elevatorDoor.open();
 			
 			SamsungMotor motor = controllers[foundElevator].getMotor() ;
 			motor.setDoorStatus(1);
@@ -44,14 +44,14 @@ public class ElevatorUI {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			curFloorDoor.control(0);
-			elevatorDoor.control(1);
+			curFloorDoor.close();
+			elevatorDoor.close();
 			
 			motor.setDoorStatus(0);
 		}
 		else {
-			// °¡Àå °¡±î¿î Elevator¸¦ Ã£¾Æ¼­ ÀÌµ¿½ÃÅ²´Ù.
-			// ¸¸¾à °¡Àå °¡±î¿î Elevator°¡ º¹¼ö°³ÀÌ¸é ElevatorÀÇ ÀüÃ¼ ÀÌµ¿°Å¸®(movingDistance)°¡ ÀÛÀº Elevator¸¦ ¼±ÅÃÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Elevatorï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Ìµï¿½ï¿½Å¸ï¿½(movingDistance)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			
 			List<Integer> nearestElevators = new ArrayList<Integer>() ;
 			int minDistance = 1000 ;
@@ -88,12 +88,12 @@ public class ElevatorUI {
 				return -1 ;
 
 			System.out.println("Elevator " + selectedElevator + " Selected at " + controllers[selectedElevator].getCurrentFloor());
-			// ¼±ÅÃµÈ ElevatorÀÇ ¸ñÀûÁö Ãþ¿¡ ¿äÃ» ÃþÀ» Ãß°¡
+			// ï¿½ï¿½ï¿½Ãµï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 			List<Integer> destinations = controllers[selectedElevator].getDestinations() ;
 			destinations.add(floor) ;
 			controllers[selectedElevator].setDestinations(destinations) ;
 			
-			// °¡Àå °¡±î¿î Elevator¸¦ ¿äÃ» ÃþÀ¸·Î ÀÌµ¿½ÃÅ²´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Elevatorï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 			SamsungMotor motor = controllers[selectedElevator].getMotor() ;
 			if ( floor > controllers[selectedElevator].getCurrentFloor() )
 				motor.move(1);
@@ -106,23 +106,23 @@ public class ElevatorUI {
 	// By Sensor
 	public void processingApproaching(int elevatorNo, int floor) {
 		System.out.println("Elevator " + elevatorNo + " Approaching " + floor);
-		// ElevatorÀÇ ±âÁ¸ Ãþ Lamp¸¦ ²ö´Ù.
+		// Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Lampï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		ElevatorLocationLamp lamp1 = controllers[elevatorNo].getLamp() ;
 		lamp1.turn(1);
 		
-		// ElevatorÀÇ ÇöÀç ÃþÀ» °»½Å½ÃÅ²´Ù.
+		// Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 		controllers[elevatorNo].setCurrentFloor(floor);
 		
-		// ElevatorÀÇ ÇöÀç Ã¬ÀÇ Lamp¸¦ ÄÒ´Ù.
+		// Elevatorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¬ï¿½ï¿½ Lampï¿½ï¿½ ï¿½Ò´ï¿½.
 		ElevatorLocationLamp lamp2 = controllers[elevatorNo].getLamp() ;
 		lamp2.turn(0);
 		
-		// MovingDistance¸¦ update½ÃÅ²´Ù.
+		// MovingDistanceï¿½ï¿½ updateï¿½ï¿½Å²ï¿½ï¿½.
 		int distance = controllers[elevatorNo].getMovingDistance() ;
 		distance ++ ;
 		controllers[elevatorNo].setMovingDistance(distance);
 		
-		// Á¤ÁöÇÒ ÇÊ¿ä°¡ ÀÖÀ¸¸é Á¤ÁöÇÏ°í, ¹®À» ¿­°í 2ÃÊ ÈÄ¿¡ ¹®À» ´Ý´Â´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 		
 		List<Integer> destinations = controllers[elevatorNo].getDestinations() ;
 		if ( destinations.contains(floor)) {
@@ -130,14 +130,14 @@ public class ElevatorUI {
 			motor.stop(); 
 			
 			LGFloorDoor curFloorDoor = controllers[elevatorNo].getFloorDoor(floor) ;
-			curFloorDoor.control(1);
+			curFloorDoor.open();
 			SamsungElevatorDoor elevatorDoor = controllers[elevatorNo].getElevatorDoor() ;
-			elevatorDoor.control(0);
+			elevatorDoor.open();
 			
 			motor.setDoorStatus(1);
 
-			// ¾È³» ¹æ¼Û
-			System.out.println(floor + " Ãþ¿¡ µµÂøÇÏ¿´½À´Ï´Ù.");
+			// ï¿½È³ï¿½ ï¿½ï¿½ï¿½
+			System.out.println(floor + " ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 
 			try {
 				Thread.sleep(2000) ;
@@ -146,8 +146,8 @@ public class ElevatorUI {
 				e.printStackTrace();
 			}
 			
-			curFloorDoor.control(0);
-			elevatorDoor.control(1);
+			curFloorDoor.close();
+			elevatorDoor.close();
 			
 			motor.setDoorStatus(0);
 
@@ -180,8 +180,8 @@ public class ElevatorUI {
 		
 		SamsungMotor motor = controllers[elevatorNo].getMotor() ;
 		if ( motor.getStatus() == 0 ) {
-			elevatorDoor.control(0);;
-			floorDoor.control(1);
+			elevatorDoor.open();;
+			floorDoor.open();
 		}
 		else {
 			System.out.println("Elevator " + elevatorNo + " Moving: cannot open Door");
@@ -195,8 +195,8 @@ public class ElevatorUI {
 		LGFloorDoor floorDoor = controllers[elevatorNo].getFloorDoor(floor) ;
 		
 		if ( elevatorDoor.getStatus() == 1 && floorDoor.getStatus() == 1 ) {
-			elevatorDoor.control(1);;
-			floorDoor.control(0);
+			elevatorDoor.close();;
+			floorDoor.close();
 		}
 		else {
 			System.out.println("Elevator " + elevatorNo + " Already closed: cannot close Door");

@@ -12,16 +12,7 @@ public class SamsungElevatorDoor implements IDoor{
 		status = 0 ;	
 	}
 	
-	public void control(int close) {
-		if ( close == 1 ) {
-			status = 0 ;
-			System.out.println("SamsungElevatorDoor CLOSED");
-		}
-		else {
-			status = 1 ;
-			System.out.println("SamsungElevatorDoor OPEN");
-		}
-	}
+
 	@Override
  	public void open()	{
 		status = 1 ;
